@@ -3,6 +3,9 @@
 #include "application.h"
 #include "util/utils.h"
 
+#include <DbgHelp.h>
+#pragma comment (lib, "dbghelp.lib")
+
 namespace Diamond {
 	std::string CrashHandler::getTimeAndDateAsString() {
 		time_t rawTime = time(nullptr);
@@ -110,7 +113,7 @@ namespace Diamond {
 		Logger::ForceEmptyQueue();
 		std::wstring crashMessage = L"Diamond engine has stopped working.\n\nSave crash report?";
 
-		GetApp()->cleanup();
+		getApp()->cleanup();
 		if (MessageBox(NULL, crashMessage.c_str(), L"Game Crash!", MB_YESNO) == IDYES) {
 			writeFullDump(exceptionInfo, name);
 			std::ifstream src("log.log", std::ios::binary);

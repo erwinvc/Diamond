@@ -13,13 +13,14 @@ namespace Diamond {
 		bool m_hasMipmaps;
 		uint8_t m_mipmapCount = 0;
 		void cleanup();
-		void invalidate();
 
 	public:
 
 		Texture(TextureParameters params, uint32_t width, uint32_t height, const void* data, bool hasMipmaps, bool keepData = false);
 		Texture(TextureParameters params, uint32_t width, uint32_t height, bool keepData = false);
 		~Texture();
+
+		void invalidate();
 
 		uint32_t getHandle() { return m_handle; }
 

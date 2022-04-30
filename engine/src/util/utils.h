@@ -5,17 +5,6 @@
 namespace Diamond {
 	class Path;
 
-	#define ASSERT(x, ...) \
-		if (!(x)) {\
-			LOG("~r*************************"); \
-			LOG("~r    ASSERTION FAILED!    "); \
-			LOG("~r*************************"); \
-			LOG("~r%s:%d", __FILE__, __LINE__); \
-			LOG("~rCondition: %s", #x); \
-			LOG_ERROR(__VA_ARGS__); \
-			__debugbreak(); \
-}
-
 	const char* formatChar(const char* fmt, ...);
 	const char* formatBuffer(char* buffer, uint32_t size, const char* fmt, ...);
 	std::string formatString(const char* fmt, ...);

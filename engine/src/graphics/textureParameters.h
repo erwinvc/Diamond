@@ -1,5 +1,4 @@
 #pragma once
-#include <GL\glew.h>
 
 enum TextureWrap {
 	CLAMP = 0x2900,

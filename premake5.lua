@@ -3,9 +3,16 @@ workspace "Diamond"
 	
 	configurations { "Debug", "Release" }
 	
-	flags { "MultiProcessorCompile" }
+	flags { "MultiProcessorCompile", "FatalCompileWarnings" }
 	
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+
+IncludeDir = {}
+IncludeDir["GLAD"] = "engine/vendor/GLAD/include"
+IncludeDir["GLFW"] = "engine/vendor/GLFW/include"
+
+include "engine/vendor/GLAD"
+include "engine/vendor/GLFW"
 
 project "Diamond"
 	location "engine"
@@ -20,8 +27,8 @@ project "Diamond"
 	filter "system:windows"
 		systemversion "latest"
 		
-		defines { "GLEW_STATIC"	}
-		
+	defines { "GLEW_STATIC"	}
+	
 	files
 	{
 		"engine/**.h",
@@ -45,9 +52,10 @@ project "Diamond"
 	
 	includedirs
 	{
+		"%{IncludeDir.GLAD}",
+		"%{IncludeDir.GLFW}",
 		"engine/vendor/AssImp/include",
 		"engine/vendor/GLFW/include",
-		"engine/vendor/GLEW/include",
 		"engine/vendor/imgui",
 		"engine/vendor",
 		"engine/src",
@@ -56,15 +64,13 @@ project "Diamond"
 	
 	libdirs  
 	{ 
-		"$(SolutionDir)engine/vendor/GLFW/lib-vc2015",
-		"$(SolutionDir)engine/vendor/AssImp",
-		"$(SolutionDir)engine/vendor/GLEW/lib/Release/x64"
+		"$(SolutionDir)engine/vendor/AssImp"
 	}
 
 	links
 	{
-		"glfw3",
-		"glew32s",
+		"GLFW",
+		"GLAD",
 		"opengl32"
 	}
 		

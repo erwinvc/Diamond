@@ -4,6 +4,7 @@
 #include "graphics/textureParameters.h"
 #include "math/math.h"
 #include "util/utils.h"
+#include "GLError.h"
 
 namespace Diamond {
 	Texture::Texture(TextureParameters params, uint32_t width, uint32_t height, const void* data, bool hasMipmaps, bool keepData)
@@ -21,7 +22,7 @@ namespace Diamond {
 
 	void Texture::cleanup() {
 		if (m_handle) {
-			glDeleteTextures(1, &m_handle);
+			GL(glDeleteTextures(1, &m_handle));
 		}
 		m_data.cleanup();
 	}
@@ -29,43 +30,43 @@ namespace Diamond {
 	void Texture::invalidate() {
 		if (m_handle) cleanup();
 
-		glCreateTextures(GL_TEXTURE_2D, 1, &m_handle);
+		GL(glCreateTextures(GL_TEXTURE_2D, 1, &m_handle));
 
 		if (m_hasMipmaps) {
-			m_mipmapCount = 1 + Math::floor(Math::log2(Math::min(m_width, m_height)));
+			m_mipmapCount = (uint8_t)(1.0f + (uint8_t)glm::floor(glm::log2(glm::min(m_width, m_height))));
 		} else m_mipmapCount = 0;
 
-		glTextureStorage2D(m_handle, m_mipmapCount, m_params.getInternalFormat(), m_width, m_height);
+		GL(glTextureStorage2D(m_handle, m_mipmapCount, m_params.getInternalFormat(), m_width, m_height));
 
 		if (m_data) {
-			glTextureSubImage2D(m_handle, 0, 0, 0, m_width, m_height, m_params.getImageFormat(), m_params.getDataType(), m_data.getData());
-			if (m_hasMipmaps) glGenerateMipmap(GL_TEXTURE_2D);
+			GL(glTextureSubImage2D(m_handle, 0, 0, 0, m_width, m_height, m_params.getImageFormat(), m_params.getDataType(), m_data.getData()));
+			if (m_hasMipmaps) GL(glGenerateMipmap(GL_TEXTURE_2D));
 		}
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, m_params.getWrap());
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_params.getWrap());
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_params.getWrap());
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, m_params.getFilter(GL_TEXTURE_MIN_FILTER, m_hasMipmaps));
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, m_params.getFilter(GL_TEXTURE_MAG_FILTER, m_hasMipmaps));
+		GL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, m_params.getWrap()));
+		GL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_params.getWrap()));
+		GL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_params.getWrap()));
+		GL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, m_params.getFilter(GL_TEXTURE_MIN_FILTER, m_hasMipmaps)));
+		GL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, m_params.getFilter(GL_TEXTURE_MAG_FILTER, m_hasMipmaps)));
 
 
 		if (m_hasMipmaps) {
-			if (GLEW_EXT_texture_filter_anisotropic) {
+			if (GL_EXT_texture_filter_anisotropic) {
 				float value = 0;
-				glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &value);
-				float amount = Math::min(4.0f, value);
-				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, amount);
+				GL(glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &value));
+				float amount = glm::min(4.0f, value);
+				GL(glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, amount));
 			} else LOG_WARN("[~gTexture~x] GL_EXT_texture_filter_anisotropic not supported");
 		}
 	}
 
 	void Texture::bind(uint32_t slot /*= 0*/) {
-		glActiveTexture(GL_TEXTURE0 + slot);
-		glBindTexture(GL_TEXTURE_2D, m_handle);
+		GL(glActiveTexture(GL_TEXTURE0 + slot));
+		GL(glBindTexture(GL_TEXTURE_2D, m_handle));
 	}
 
 	void Texture::unbind(uint32_t slot /*= 0*/) {
-		glBindTexture(GL_TEXTURE_2D, slot);
+		GL(glBindTexture(GL_TEXTURE_2D, slot));
 	}
 
 	void Texture::resize(uint32_t width, uint32_t height) {

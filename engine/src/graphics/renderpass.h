@@ -1,16 +1,16 @@
 #pragma once
-
-#include "framebuffer.h"
+#include "stdincl.h"
 
 namespace Diamond {
-	class Renderpass {
+	class Framebuffer;
 
+	class Renderpass {
+	private:
+		Framebuffer* framebuffer;
+		std::string name;
 
 	public:
 		Renderpass(Framebuffer* _framebuffer, std::string& _name) : framebuffer(_framebuffer), name(_name) {}
-private:
-	Framebuffer* framebuffer;
-	std::string name;
-};
+	};
 }
 

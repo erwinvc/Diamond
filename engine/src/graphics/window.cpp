@@ -1,7 +1,5 @@
 #include "stdafx.h"
 #include "window.h"
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 
 namespace Diamond {
 	Window::Window(std::string title, int width, int height) : m_title(title), m_width(width), m_height(height), m_vSync(false) {

@@ -1,9 +1,11 @@
 #pragma once
 #include "glWindowCallbacks.h"
 #include "util/color.h"
+#include "src/GLError.h"
+#include "ref.h"
 
 namespace Diamond {
-	class Window {
+	class Window : public Ref{
 	private:
 		GLFWwindow* m_window;
 		std::string m_title;
@@ -15,7 +17,7 @@ namespace Diamond {
 		bool m_isFocussed;
 		bool m_isMinimized = false;
 
-		inline void onFocusEvent(int focus) { m_isFocussed = focus; }
+		inline void onFocusEvent(uint32_t focus) { m_isFocussed = focus; }
 
 	public:
 		Window(std::string title, int width, int height);
@@ -39,8 +41,8 @@ namespace Diamond {
 		inline void makeContextCurrent() { glfwMakeContextCurrent(m_window); }
 		inline void show() { glfwShowWindow(m_window); }
 
-		inline void clearColor(Color& col) { glClearColor(col.r, col.g, col.b, col.a); }
-		inline void clear() { glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); }
+		inline void clearColor(Color& col) { GL(glClearColor(col.r, col.g, col.b, col.a)); }
+		inline void clear() { GL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)); }
 
 		inline bool getVSync() { return m_vSync; }
 		inline bool isMinimized() { return m_isMinimized; }

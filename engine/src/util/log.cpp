@@ -25,7 +25,7 @@ namespace Diamond {
 		std::getline(std::cin, input);
 		LOG("~R%s", input.c_str());
 		if (input.compare("exit") == 0 || input.compare("shutdown") == 0) {
-			GetApp()->cleanup();
+			getApp()->cleanup();
 		}
 	}
 

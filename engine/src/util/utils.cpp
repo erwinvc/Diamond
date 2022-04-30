@@ -40,7 +40,7 @@ namespace Diamond {
 		}
 
 		bool endsWith(const std::string& str, const char* suffix) {
-			return endsWith(str, suffix, std::string::traits_type::length(suffix));
+			return endsWith(str, suffix, (uint32_t)std::string::traits_type::length(suffix));
 		}
 
 		bool startsWith(const std::string& str, const char* prefix, unsigned prefixLen) {
@@ -48,7 +48,7 @@ namespace Diamond {
 		}
 
 		bool startsWith(const std::string& str, const char* prefix) {
-			return startsWith(str, prefix, std::string::traits_type::length(prefix));
+			return startsWith(str, prefix, (uint32_t)std::string::traits_type::length(prefix));
 		}
 
 		void lTrim(std::string& s) {
@@ -135,14 +135,14 @@ namespace Diamond {
 
 		const char* getFBOStatus(GLenum status) {
 			switch (status) {
-				case GL_FRAMEBUFFER_COMPLETE_EXT:						return "no error";
-				case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT:			return "incomplete attachment";
-				case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT:	return "missing Attachment";
-				case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:			return "dimensions do not match";
-				case GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT:				return "formats error";
-				case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT:			return "draw Buffer";
-				case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT:			return "read Buffer";
-				case GL_FRAMEBUFFER_UNSUPPORTED_EXT:					return "snsupported Framebuffer configuration";
+				case GL_FRAMEBUFFER_COMPLETE:						return "no error";
+				case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:			return "incomplete attachment";
+				case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:	return "missing Attachment";
+				case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:			return "draw Buffer";
+				case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:			return "read Buffer";
+				case GL_FRAMEBUFFER_UNSUPPORTED:					return "snsupported Framebuffer configuration";
+				//case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:			return "dimensions do not match";
+				//case GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT:				return "formats error";
 				default:												return "unkown Framebuffer Object error";
 			}
 		}

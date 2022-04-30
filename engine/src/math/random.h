@@ -1,6 +1,5 @@
 #pragma once
-#include <ctime>
-#include <random>
+#include "random"
 
 class RandomInstance {
 private:

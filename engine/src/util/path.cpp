@@ -5,6 +5,13 @@
 
 namespace Diamond {
 	Path::Path(const std::string& fullPath) {
+		if (!FileSystem::doesFileExist(fullPath)) {
+			m_dir = "{InvalidPath " + fullPath + " }";
+			m_fileName = "";
+			m_extention = "";
+			return;
+		}
+
 		std::string _fullPath = fullPath;
 		for (auto it = _fullPath.find('\\'); it != std::string::npos; it = _fullPath.find('\\')) _fullPath.replace(it, 1, "/");
 		auto periodIndex = _fullPath.find_last_of('.');

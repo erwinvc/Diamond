@@ -15,7 +15,6 @@
 #include <stdio.h>
 #include <algorithm>
 #include <thread>
-#include <math.h>
 #include <cstdlib>
 #include <atomic>
 #include <mutex>
@@ -29,11 +28,8 @@
 #include <vector>
 #include <unordered_map>
 
-#include <DbgHelp.h>
-#pragma comment (lib, "dbghelp.lib")
-
 // OpenGL
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 // ImGui
@@ -46,6 +42,7 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/gtc/noise.hpp"
+#include "glm/gtc/integer.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/matrix_access.hpp"
 #include "glm/gtx/transform.hpp"
